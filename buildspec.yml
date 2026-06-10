@@ -30,12 +30,13 @@ phases:
     
   post_build:
     commands:
+      - docker stop test-db && docker rm test-db 
       - echo Pushing the Docker images...
       - docker push $REPOSITORY_URI:$IMAGE_TAG
       - docker push $REPOSITORY_URI:latest
       - echo Writing image definitions file...
       - printf '[{"name":"users", "imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
-      - docker stop test-db && docker rm test-db 
+    
 
 artifacts:
   files:
